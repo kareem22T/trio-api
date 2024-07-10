@@ -21,8 +21,8 @@ class HomeController extends Controller
             ];
         })->toArray();
 
-        return response()->json(
-            $settings
-        );
+        return response()->json([
+            "data" => $settingsArray
+        ]);
     }
 }
