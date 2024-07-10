@@ -13,7 +13,7 @@ class ServiceController extends Controller
     use HandleResponseTrait;
 
     public function get() {
-        $services = Service::with("points")->latest()->paginate(20);
+        $services = Service::with("points")->latest()->get();
 
         return $this->handleResponse(
             true,
