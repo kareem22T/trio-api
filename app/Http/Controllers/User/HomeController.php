@@ -15,9 +15,7 @@ class HomeController extends Controller
         // Transform settings into an associative array.
         $settingsArray = $settings->mapWithKeys(function ($setting) {
             return [
-                $setting->key => [
-                    'value' => $setting->value,
-                ]
+                $setting->key => $setting->value
             ];
         })->toArray();
 
