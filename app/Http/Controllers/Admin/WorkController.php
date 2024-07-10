@@ -37,7 +37,7 @@ class WorkController extends Controller
     }
 
     public function edit($id) {
-        $work = Work::with("points")->find($id);
+        $work = Work::find($id);
 
         if ($work)
             return view("Admin.works.edit")->with(compact("work"));
