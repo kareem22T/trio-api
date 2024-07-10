@@ -13,7 +13,7 @@ class WorkController extends Controller
     use HandleResponseTrait;
 
     public function get() {
-        $works = Work::latest()->paginate(1);
+        $works = Work::latest()->paginate(20);
 
         return $this->handleResponse(
             true,
