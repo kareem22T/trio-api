@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SponsorController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\WorkController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Middleware\GuestAdminMiddleware;
 
@@ -40,6 +41,18 @@ Route::prefix('admin')->group(function () {
             Route::post("/update", [ServiceController::class, "update"])->name("admin.services.update");
             Route::get("/delete/{id}", [ServiceController::class, "deleteIndex"])->name("admin.services.delete.confirm");
             Route::post("/delete", [ServiceController::class, "delete"])->name("admin.services.delete");
+        });
+
+        // Works
+        Route::prefix('works')->group(function () {
+            Route::get("/", [WorkController::class, "index"])->name("admin.works.show");
+            Route::get("/get", [WorkController::class, "get"])->name("admin.works.get");
+            Route::get("/create", [WorkController::class, "add"])->name("admin.works.add");
+            Route::post("/create", [WorkController::class, "create"])->name("admin.works.create");
+            Route::get("/edit/{id}", [WorkController::class, "edit"])->name("admin.works.edit");
+            Route::post("/update", [WorkController::class, "update"])->name("admin.works.update");
+            Route::get("/delete/{id}", [WorkController::class, "deleteIndex"])->name("admin.works.delete.confirm");
+            Route::post("/delete", [WorkController::class, "delete"])->name("admin.works.delete");
         });
 
         Route::get("/messages", function() {

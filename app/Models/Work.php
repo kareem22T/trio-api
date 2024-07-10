@@ -4,18 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Event;
-class Service extends Model
+
+class Work extends Model
 {
     use HasFactory;
     protected $fillable = [
         'photo_path',
         'title',
+        'description',
     ];
-
-    public function points()
-    {
-        return $this->hasMany('App\Models\Point', 'service_id');
-    }
-
 }

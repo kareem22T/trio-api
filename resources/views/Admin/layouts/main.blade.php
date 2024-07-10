@@ -187,6 +187,21 @@
                 </div>
             </li>
 
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Works"
+                    aria-expanded="true" aria-controls="Works">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>Our Works</span>
+                </a>
+                <div id="Works" class="collapse" aria-labelledby="Works" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route("admin.works.show") }}">Preview</a>
+                        <a class="collapse-item" href="{{ route("admin.works.add") }}">Add</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('admin.emails')}}">

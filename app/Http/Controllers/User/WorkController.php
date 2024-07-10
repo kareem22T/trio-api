@@ -5,22 +5,22 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\HandleResponseTrait;
-use App\Models\Service;
+use App\Models\Work;
 use App\Models\Event;
 
-class ServiceController extends Controller
+class WorkController extends Controller
 {
     use HandleResponseTrait;
 
     public function get() {
-        $services = Service::with("points")->latest()->paginate(20);
+        $works = Work::latest()->paginate(20);
 
         return $this->handleResponse(
             true,
             "عملية ناجحة",
             [],
 
-                $services
+                $works
             ,
             [
                 "يبدا مسار الصورة من بعد الدومين مباشرا"

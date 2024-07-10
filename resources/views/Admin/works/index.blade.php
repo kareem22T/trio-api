@@ -1,9 +1,9 @@
 @extends('Admin.layouts.main')
 
-@section("title", "Services")
+@section("title", "Works")
 
 @php
-    $services = App\Models\Service::all();
+    $works = App\Models\Work::all();
 @endphp
 
 @section("content")
@@ -13,9 +13,9 @@
     }
 </style>
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Services</h1>
-    <a href="{{ route("admin.services.add") }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-            class="fas fa-plus fa-sm text-white-50"></i> Create Service</a>
+    <h1 class="h3 mb-0 text-gray-800">Works</h1>
+    <a href="{{ route("admin.works.add") }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            class="fas fa-plus fa-sm text-white-50"></i> Create Work</a>
 </div>
 
 <div class="card shadow mb-4">
@@ -25,16 +25,18 @@
                 <thead>
                     <tr>
                         <th>Title</th>
+                        <th>Description</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($services as $loc)
+                    @foreach ($works as $loc)
                         <tr>
                             <td>{{ $loc->title }}</td>
+                            <td>{{ ($loc->description) }}</td>
                             <td>
-                                <a href="{{ route("admin.services.edit", ["id" => $loc->id]) }}" class="btn btn-success">Edit</a>
-                                <a href="{{ route("admin.services.delete.confirm", ["id" => $loc->id]) }}" class="btn btn-danger">Delete</a>
+                                <a href="{{ route("admin.works.edit", ["id" => $loc->id]) }}" class="btn btn-success">Edit</a>
+                                <a href="{{ route("admin.works.delete.confirm", ["id" => $loc->id]) }}" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                     @endforeach

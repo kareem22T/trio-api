@@ -1,44 +1,27 @@
 @extends('Admin.layouts.main')
 
-@section("title", "Services - Edit")
+@section("title", "Works - Edit")
 @section("loading_txt", "Edit")
 
 @section("content")
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Edit Service</h1>
-    <a href="{{ route("admin.services.show") }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+    <h1 class="h3 mb-0 text-gray-800">Edit Work</h1>
+    <a href="{{ route("admin.works.show") }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
             class="fas fa-arrow-left fa-sm text-white-50"></i> Back</a>
 </div>
 
-<div class="card p-3 mb-3" id="services_wrapper">
+<div class="card p-3 mb-3" id="works_wrapper">
     <div class="d-flex justify-content-between" style="gap: 16px">
         <div class="w-100">
             <div class="form-group w-100">
                 <label for="Title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="Title"  placeholder="Service Title" v-model="title">
+                <input type="text" class="form-control" id="Title"  placeholder="Work Title" v-model="title">
             </div>
-            <div class="d-flex justify-content-between mb-4">
-                <h2>Does this service has options?</h2>
-                <button class="btn btn-primary" @click="handleAddOption">Add Option</button>
-             </div>
-             <table class="table" v-if="options && options.length > 0">
-                <thead>
-                  <tr>
-                    <th scope="col">Point</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="option, index in options" :key="index">
-                    <td>
-                        <input type="text" name="point" id="point" class="form-control" placeholder="Point" v-model="options[index]['point']">
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" @click="handleRemoveOption(index)">Remove</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="form-group">
+                <label for="Description" class="form-label">Description</label>
+                <textarea rows="5" class="form-control" id="Description"  placeholder="Description Name" style="resize: none" v-model="description">
+                </textarea>
+            </div>
         </div>
         <div class="form-group pt-4 pb-4" style="width: max-content; height: 300px;min-width: 250px">
             <label for="thumbnail" class="w-100 h-100">
@@ -53,13 +36,13 @@
                 </svg>
                 <img v-if="thumbnail_path" :src="thumbnail_path" style="width: 100%; height: 100%; object-fit: cover; padding: 10px; border: 1px solid; border-radius: 1rem" />
             </label>
-        <input type="file" class="form-control d-none" id="thumbnail"  placeholder="Service Thumbnail Picture" @change="handleChangeThumbnail">
+        <input type="file" class="form-control d-none" id="thumbnail"  placeholder="Work Thumbnail Picture" @change="handleChangeThumbnail">
         </div>
 
         </div>
     <div class="form-group">
         <br>
-        <button class="btn btn-success w-25" @click="updateService" style="margin: auto; display: block">Update</button>
+        <button class="btn btn-success w-25" @click="updateWork" style="margin: auto; display: block">Update</button>
     </div>
 </div>
 
@@ -72,25 +55,13 @@ const { createApp, ref } = Vue
 createApp({
     data() {
         return {
-            title: "{{$service->title}}",
-            description: @json($service->description),
-            thumbnail_path: "{{$service->photo_path}}",
+            title: "{{$work->title}}",
+            description: @json($work->description),
+            thumbnail_path: "{{$work->photo_path}}",
             thumbnail: null,
-            options: @json($service->points),
         }
     },
     methods: {
-        handleAddOption() {
-            this.options.push({
-                size: "",
-                flavour: "",
-                nicotine: "",
-                price: "",
-            })
-        },
-        handleRemoveOption(index) {
-            this.options.splice(index, 1)
-        },
         handleChangeThumbnail(event) {
             this.thumbnail = event.target.files[0]
             this.thumbnail_path = URL.createObjectURL(event.target.files[0])
@@ -107,13 +78,13 @@ createApp({
             this.portrait = event.target.files[0]
             this.portrait_path = URL.createObjectURL(event.target.files[0])
         },
-        async updateService() {
+        async updateWork() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`{{ route("admin.services.update") }}`, {
-                    id: "{{$service->id}}",
+                const response = await axios.post(`{{ route("admin.works.update") }}`, {
+                    id: "{{$work->id}}",
                     title: this.title,
-                    points: this.options,
+                    description: this.description,
                     photo: this.thumbnail,
                 }, {
                     headers: {
@@ -131,7 +102,7 @@ createApp({
                     setTimeout(() => {
                         $('.loader').fadeOut()
                         $('#errors').fadeOut('slow')
-                        window.location.href = '{{ route("admin.services.show") }}'
+                        window.location.href = '{{ route("admin.works.show") }}'
                     }, 1300);
                 } else {
                     $('.loader').fadeOut()
@@ -166,6 +137,6 @@ createApp({
     },
     created() {
     }
-}).mount('#services_wrapper')
+}).mount('#works_wrapper')
 </script>
 @endSection

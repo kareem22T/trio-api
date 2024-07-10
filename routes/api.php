@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\WorkController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,11 @@ Route::post("/sponsors/search-other", [SponsorController::class, 'searchOther'])
 Route::get("/services/get", [ServiceController::class, 'get']);
 Route::post("/services/search", [ServiceController::class, 'search']);
 Route::get("/services/service", [ServiceController::class, 'service']);
+
+// Work endpoints
+Route::get("/works/get", [WorkController::class, 'get']);
+Route::post("/works/search", [WorkController::class, 'search']);
+Route::get("/works/work", [WorkController::class, 'work']);
 
 // email endpoints
 Route::post("/send-msg", [ContactController::class, 'subscribe']);

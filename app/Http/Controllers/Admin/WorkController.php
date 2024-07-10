@@ -7,46 +7,45 @@ use Illuminate\Http\Request;
 use App\HandleResponseTrait;
 use App\SaveImageTrait;
 use App\DeleteImageTrait;
-use App\Models\Point;
-use App\Models\Service;
+use App\Models\Work;
 use Illuminate\Support\Facades\Validator;
 
-class ServiceController extends Controller
+class WorkController extends Controller
 {
     use HandleResponseTrait, SaveImageTrait, DeleteImageTrait;
 
     public function index() {
-        return view('Admin.services.index');
+        return view('Admin.works.index');
     }
 
     public function get() {
-        $services = Service::all();
+        $works = Work::all();
 
         return $this->handleResponse(
             true,
             "",
             [],
             [
-                $services
+                $works
             ],
             []
         );
     }
 
     public function add() {
-        return view("Admin.services.create");
+        return view("Admin.works.create");
     }
 
     public function edit($id) {
-        $service = Service::find($id);
+        $work = Work::with("points")->find($id);
 
-        if ($service)
-            return view("Admin.services.edit")->with(compact("service"));
+        if ($work)
+            return view("Admin.works.edit")->with(compact("work"));
 
         return $this->handleResponse(
             false,
-            "Service not exists",
-            ["Service id not valid"],
+            "Work not exists",
+            ["Work id not valid"],
             [],
             []
         );
@@ -55,6 +54,7 @@ class ServiceController extends Controller
     public function create(Request $request) {
         $validator = Validator::make($request->all(), [
             "title" => ["required", "max:100"],
+            "description" => ["required"],
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             "title.required" => "ادخل عنوان الخدمة",
@@ -79,22 +79,15 @@ class ServiceController extends Controller
             );
         }
 
-        $photo = $this->saveImg($request->photo, 'images/uploads/Services', time());
+        $photo = $this->saveImg($request->photo, 'images/uploads/Works', time());
 
-        $service = Service::create([
+        $work = Work::create([
             "title" => $request->title,
-            "photo_path" => '/images/uploads/Services/' . $photo,
+            "description" => $request->description,
+            "photo_path" => '/images/uploads/Works/' . $photo,
         ]);
-        if ($request->points && $service) {
-            foreach ($request->points as $option) {
-                $option = Point::create([
-                    "service_id" => $service->id,
-                    "point" => $option["point"] ?? null,
-                ]);
-            }
-        }
 
-        if ($service)
+        if ($work)
             return $this->handleResponse(
                 true,
                 "تم اضافة الخدمة بنجاح",
@@ -108,6 +101,7 @@ class ServiceController extends Controller
         $validator = Validator::make($request->all(), [
             "id" => ["required"],
             "title" => ["required", "max:100"],
+            "description" => ["required"],
             'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             "title.required" => "ادخل عنوان الخدمة",
@@ -131,29 +125,19 @@ class ServiceController extends Controller
             );
         }
 
-        $service = Service::find($request->id);
+        $work = Work::find($request->id);
 
         if ($request->photo) {
-            $this->deleteFile(public_path($service->photo_path));
-            $photo = $this->saveImg($request->photo, 'images/uploads/Services', time());
-            $service->photo_path = '/images/uploads/Services/' . $photo;
+            $this->deleteFile(public_path($work->photo_path));
+            $photo = $this->saveImg($request->photo, 'images/uploads/Works', time());
+            $work->photo_path = '/images/uploads/Works/' . $photo;
         }
 
-        $service->title = $request->title;
-        $service->save();
-        foreach ( $service->points as $option) {
-            $option->delete();
-        }
-        if ($request->points && $service) {
+        $work->title = $request->title;
+        $work->description = $request->description;
+        $work->save();
 
-            foreach ($request->points as $option) {
-                $option = Point::create([
-                    "service_id" => $service->id,
-                    "point" => $option["point"] ?? null,
-                ]);
-            }
-        }
-        if ($service)
+        if ($work)
             return $this->handleResponse(
                 true,
                 "تم تحديث الخدمة بنجاح",
@@ -164,15 +148,15 @@ class ServiceController extends Controller
     }
 
     public function deleteIndex($id) {
-        $service = Service::find($id);
+        $work = Work::find($id);
 
-        if ($service)
-            return view("Admin.services.delete")->with(compact("service"));
+        if ($work)
+            return view("Admin.works.delete")->with(compact("work"));
 
         return $this->handleResponse(
             false,
-            "Service not exists",
-            ["Service id not valid"],
+            "Work not exists",
+            ["Work id not valid"],
             [],
             []
         );
@@ -193,13 +177,13 @@ class ServiceController extends Controller
             );
         }
 
-        $service = Service::find($request->id);
+        $work = Work::find($request->id);
 
-        $this->deleteFile(public_path($service->photo_path));
+        $this->deleteFile(public_path($work->photo_path));
 
-        $service->delete();
+        $work->delete();
 
-        if ($service)
+        if ($work)
             return $this->handleResponse(
                 true,
                 "تم حذف الخدمة بنجاح",

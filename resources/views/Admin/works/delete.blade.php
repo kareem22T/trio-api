@@ -1,45 +1,26 @@
 @extends('Admin.layouts.main')
 
-@section("title", "Services - Edit")
-@section("loading_txt", "Edit")
+@section("title", "works - Delete")
+@section("loading_txt", "Delete")
 
 @section("content")
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Edit Service</h1>
-    <a href="{{ route("admin.services.show") }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+    <h1 class="h3 mb-0 text-gray-800">Delete work</h1>
+    <a href="{{ route("admin.works.show") }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
             class="fas fa-arrow-left fa-sm text-white-50"></i> Back</a>
 </div>
 
-<div class="card p-3 mb-3" id="services_wrapper">
+<div class="card p-3 mb-3" id="works_wrapper">
+    <div class="card-header mb-3">
+        <h3 class="text-danger text-center mb-0">Are you sure you want to delete this work?</h3>
+    </div>
     <div class="d-flex justify-content-between" style="gap: 16px">
         <div class="w-100">
             <div class="form-group w-100">
                 <label for="Title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="Title"  placeholder="Service Title" v-model="title">
+                <input type="text" class="form-control" id="Title"  placeholder="Work Title" v-model="title">
             </div>
-            <div class="d-flex justify-content-between mb-4">
-                <h2>Does this service has options?</h2>
-                <button class="btn btn-primary" @click="handleAddOption">Add Option</button>
-             </div>
-             <table class="table" v-if="options && options.length > 0">
-                <thead>
-                  <tr>
-                    <th scope="col">Point</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="option, index in options" :key="index">
-                    <td>
-                        <input type="text" name="point" id="point" class="form-control" placeholder="Point" v-model="options[index]['point']">
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" @click="handleRemoveOption(index)">Remove</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+        </div>
         <div class="form-group pt-4 pb-4" style="width: max-content; height: 300px;min-width: 250px">
             <label for="thumbnail" class="w-100 h-100">
                 <svg v-if="!thumbnail && !thumbnail_path" xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-photo-up" width="24" height="24" viewBox="0 0 24 24" strokeWidth="1.5" style="width: 100%; height: 100%; object-fit: cover; padding: 10px; border: 1px solid; border-radius: 1rem" stroke="#043343" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -51,15 +32,13 @@
                     <path d="M19 22v-6" />
                     <path d="M22 19l-3 -3l-3 3" />
                 </svg>
-                <img v-if="thumbnail_path" :src="thumbnail_path" style="width: 100%; height: 100%; object-fit: cover; padding: 10px; border: 1px solid; border-radius: 1rem" />
+                <img v-if="thumbnail_path" :src="thumbnail_path"  disabled style="width: 100%; height: 100%; object-fit: cover; padding: 10px; border: 1px solid; border-radius: 1rem" />
             </label>
-        <input type="file" class="form-control d-none" id="thumbnail"  placeholder="Service Thumbnail Picture" @change="handleChangeThumbnail">
         </div>
-
-        </div>
-    <div class="form-group">
-        <br>
-        <button class="btn btn-success w-25" @click="updateService" style="margin: auto; display: block">Create</button>
+    </div>
+    <div class="form-group w-100 d-flex justify-content-center" style="gap: 16px">
+        <a href="{{ route("admin.works.show") }}" class="btn btn-secondary w-25">Cancel</a>
+        <button class="btn btn-danger w-25" @click="deleteCat">Delete</button>
     </div>
 </div>
 
@@ -72,55 +51,24 @@ const { createApp, ref } = Vue
 createApp({
     data() {
         return {
-            title: "",
-            description: "",
-            thumbnail_path: null,
+            id: '{{ $work->id }}',
+            title: '{{ $work->title }}',
             thumbnail: null,
-            options: [],
+            thumbnail_path: '{{ $work->photo_path }}',
         }
     },
     methods: {
-        handleChangeThumbnail(event) {
-            this.thumbnail = event.target.files[0]
-            this.thumbnail_path = URL.createObjectURL(event.target.files[0])
+        handleChangeThumbnail(work) {
+            this.thumbnail = work.target.files[0]
+            this.thumbnail_path = URL.createObjectURL(work.target.files[0])
         },
-        handleChangecover(event) {
-            this.cover = event.target.files[0]
-            this.cover_path = URL.createObjectURL(event.target.files[0])
-        },
-        handleChangelandscape(event) {
-            this.landscape = event.target.files[0]
-            this.landscape_path = URL.createObjectURL(event.target.files[0])
-        },
-        handleChangeportrait(event) {
-            this.portrait = event.target.files[0]
-            this.portrait_path = URL.createObjectURL(event.target.files[0])
-        },
-        handleAddOption() {
-            this.options.push({
-                size: "",
-                flavour: "",
-                nicotine: "",
-                price: "",
-            })
-        },
-        handleRemoveOption(index) {
-            this.options.splice(index, 1)
-        },
-
-        async updateService() {
+        async deleteCat() {
             $('.loader').fadeIn().css('display', 'flex')
             try {
-                const response = await axios.post(`{{ route("admin.services.create") }}`, {
-                    title: this.title,
-                    points: this.options,
-                    photo: this.thumbnail,
-                }, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-
+                const response = await axios.post(`{{ route("admin.works.delete") }}`, {
+                    id: this.id
+                },
+                );
                 if (response.data.status === true) {
                     document.getElementById('errors').innerHTML = ''
                     let error = document.createElement('div')
@@ -131,7 +79,7 @@ createApp({
                     setTimeout(() => {
                         $('.loader').fadeOut()
                         $('#errors').fadeOut('slow')
-                        window.location.href = '{{ route("admin.services.show") }}'
+                        window.work.href = '{{ route("admin.works.show") }}'
                     }, 1300);
                 } else {
                     $('.loader').fadeOut()
@@ -147,6 +95,7 @@ createApp({
                         $('#errors').fadeOut('slow')
                     }, 5000);
                 }
+
             } catch (error) {
                 document.getElementById('errors').innerHTML = ''
                 let err = document.createElement('div')
@@ -164,6 +113,6 @@ createApp({
             }
         }
     },
-}).mount('#services_wrapper')
+}).mount('#works_wrapper')
 </script>
 @endSection
