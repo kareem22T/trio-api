@@ -8,7 +8,7 @@
         </div>
     @endif
     <br>
-    <form action="/admin/store-settings" method="POST" class="card p-4">
+    <form action="/admin/store-settings" enctype="multipart/form-data" method="POST" class="card p-4">
         @csrf
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -19,6 +19,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">About us</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-media-tab" data-bs-toggle="pill" data-bs-target="#pills-media" type="button" role="tab" aria-controls="pills-media" aria-selected="false">Media</button>
             </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
@@ -121,6 +124,60 @@
                 <div class="form-group">
                     <label for="">Our principle card 3</label>
                     <input type="text" name="our_principle_3" id="our_principle_3" class="form-control" placeholder="Our principle card 3" value="{{(isset($settingsArray["our_principle_3"]) && $settingsArray["our_principle_3"]["value"]) ? $settingsArray["our_principle_3"]["value"] : ''}}">
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-media" role="tabpanel" aria-labelledby="pills-media-tab">
+                <div class="form-group">
+                    <label for="">Hero img</label>
+                    <input type="file" name="hero_img" id="hero_img" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Video main</label>
+                    <input type="file" name="video_main" id="video_main" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Third section background</label>
+                    <input type="file" name="third_bg" id="third_bg" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Third section about us</label>
+                    <input type="file" name="third_bg_about" id="third_bg_about" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Third section services</label>
+                    <input type="file" name="third_bg_services" id="third_bg_services" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Third section our work</label>
+                    <input type="file" name="third_bg_work" id="third_bg_work" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">footer</label>
+                    <input type="file" name="footer" id="footer" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Profile download</label>
+                    <input type="file" name="profile_pdf" id="profile_pdf" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Portfolio download</label>
+                    <input type="file" name="portfolio_pdf" id="portfolio_pdf" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Our services page head</label>
+                    <input type="file" name="our_services" id="our_services" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Our work page head</label>
+                    <input type="file" name="our_work" id="our_work" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">About us head</label>
+                    <input type="file" name="about_us" id="about_us" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Contact us head</label>
+                    <input type="file" name="contact_us" id="contact_us" class="form-control">
                 </div>
             </div>
         </div>
