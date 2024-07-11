@@ -172,6 +172,26 @@
                     <input type="file" name="about_us" id="about_us" class="form-control">
                 </div>
                 <div class="form-group">
+                    <label for="">About us main image</label>
+                    <input type="file" name="about_us_main" id="about_us_main" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Testemonial large image</label>
+                    <input type="file" name="about_us_large" id="about_us_large" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Testemonial first image</label>
+                    <input type="file" name="about_us_first" id="about_us_first" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Testemonial second image</label>
+                    <input type="file" name="about_us_second" id="about_us_second" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Testemonial bg</label>
+                    <input type="file" name="about_us_bg" id="about_us_bg" class="form-control">
+                </div>
+                <div class="form-group">
                     <label for="">Contact us head</label>
                     <input type="file" name="contact_us" id="contact_us" class="form-control">
                 </div>
