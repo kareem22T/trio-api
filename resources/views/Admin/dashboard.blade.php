@@ -132,6 +132,10 @@
                     <input type="file" name="hero_img" id="hero_img" class="form-control">
                 </div>
                 <div class="form-group">
+                    <label for="">main video</label>
+                    <input type="file" name="video" id="video" class="form-control">
+                </div>
+                <div class="form-group">
                     <label for="">Third section background</label>
                     <input type="file" name="third_bg" id="third_bg" class="form-control">
                 </div>
