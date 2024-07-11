@@ -12,7 +12,7 @@ class SponsorController extends Controller
     use HandleResponseTrait;
 
     public function getTop() {
-        $Sponsor = Sponsor::where("isTop", true)->latest()->get();
+        $Sponsor = Sponsor::latest()->get();
 
         return $this->handleResponse(
             true,
