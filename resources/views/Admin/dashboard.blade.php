@@ -110,6 +110,10 @@
             </div>
             <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                 <div class="form-group">
+                    <label for="">logo main</label>
+                    <input type="text" name="who_trio" id="logo_main" class="form-control" placeholder="Who is trio?" value="{{(isset($settingsArray["logo_main"]) && $settingsArray["logo_main"]["value"]) ? $settingsArray["logo_main"]["value"] : ''}}">
+                </div>
+                <div class="form-group">
                     <label for="">Who is trio?</label>
                     <input type="text" name="who_trio" id="who_trio" class="form-control" placeholder="Who is trio?" value="{{(isset($settingsArray["who_trio"]) && $settingsArray["who_trio"]["value"]) ? $settingsArray["who_trio"]["value"] : ''}}">
                 </div>
