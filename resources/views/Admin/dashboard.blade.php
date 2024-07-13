@@ -207,4 +207,12 @@
         </div>
         <button type="submit" class="btn btn-success">Save Settings</button>
     </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const inputs = document.querySelectorAll('input[type="file"]');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+        });
+    </script>
 @endSection
